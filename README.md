@@ -1,2 +1,2 @@
 # mantis_game
-A mantis game for gamebuino, coded in c++
+A mantis game for gamebuino meta, coded in c++
