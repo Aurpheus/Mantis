@@ -13,6 +13,7 @@ class Terrarium {
 
     Mantis* mantis;
 
+
     public:
         //constructor
         Terrarium();

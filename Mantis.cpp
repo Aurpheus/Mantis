@@ -15,6 +15,12 @@ Mantis::Mantis() {
     hours_passed = 0;
     is_dead = false;
     happiness_prct = 50;
+    x=56;
+    y=40;
+    moveEveryXTicks = 100;
+    ticksSinceLastMove = 0;
+    flip = false;
+    rotated = false;
 }
 
 Mantis::Mantis(char *name) {
@@ -27,6 +33,13 @@ Mantis::Mantis(char *name) {
     hours_passed = 0;
     is_dead = false;
     happiness_prct = 50;
+    x=56;
+    y=40;
+    moveEveryXTicks = 100;
+    ticksSinceLastMove = 0;
+    flip = false;
+    rotated = false;
+
 }
 
 //all args constructor
@@ -40,6 +53,73 @@ Mantis::Mantis(char *name ,long age, int hunger, int stage, int behaviour) {
     weight = 20;
     is_dead = false;
     happiness_prct = 50;
+    x=56;
+    y=40;
+    moveEveryXTicks = 100;
+    ticksSinceLastMove = 0;
+    flip = false;
+    rotated = false;
+}
+
+void Mantis::setPos(int x, int y) {
+    this->x = x;
+    this->y = y;
+}
+
+void Mantis::setMoveEveryXTicks(int moveEveryXTicks) {
+    this->moveEveryXTicks = moveEveryXTicks;
+}
+
+char *Mantis::getDirection() const {
+    switch (direction) {
+        case 0:
+            return "Left";
+        case 1:
+            return "Right";
+        case 2:
+            return "Up";
+        case 3:
+            return "Down";
+        default:
+            return "None";
+    }
+}
+
+int Mantis::getX() const {
+    return x;
+}
+
+int Mantis::getY() const {
+    return y;
+}
+
+void Mantis::rollNewDirection() {
+    this->direction = random(0,5);
+}
+
+void Mantis::move(bool canMoveUp, bool canMoveDown, bool canMoveLeft, bool canMoveRight) {
+    if(ticksSinceLastMove%moveEveryXTicks==0){
+        if (direction == 0 && canMoveLeft){
+            x--;
+            flip = false;
+            rotated = false;
+        }else if (direction == 1 && canMoveRight){
+            x++;
+            flip = true;
+            rotated = false;
+        }else if (direction == 2 && canMoveUp){
+            y--;
+            flip = false;
+            rotated = true;
+        }else if (direction == 3 && canMoveDown){
+            y++;
+            rotated = true;
+            flip = true;
+        }
+        ticksSinceLastMove=0;
+    }else{
+        ticksSinceLastMove++;
+    }
 }
 
 //setters
@@ -102,7 +182,16 @@ bool Mantis::isDead() const {
     return is_dead;
 }
 
+bool Mantis::isFlipped() const {
+    return flip;
+}
+
+bool Mantis::isRotated() const {
+    return rotated;
+}
+
 void Mantis::hour_pass() {
+    rollNewDirection();
     setHunger(getHunger()+1);
     setWeight(getWeight()-0.4);
 

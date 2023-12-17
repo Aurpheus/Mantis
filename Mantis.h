@@ -5,6 +5,8 @@
 #ifndef MANTIS_MANTIS_H
 #define MANTIS_MANTIS_H
 
+#include <Gamebuino-Meta.h>
+
 
 class Mantis {
 
@@ -15,6 +17,17 @@ class Mantis {
     char* name;
     int hours_passed;
     bool is_dead;
+    int x;
+    int y;
+    bool flip;
+    bool rotated;
+
+    int moveEveryXTicks;
+    int ticksSinceLastMove;
+
+    //where does she try to go
+    int direction;
+
 
     double weight;
     //if not happy mantis will hide
@@ -35,6 +48,9 @@ class Mantis {
         void setStage(int stage);
         void setBehaviour(int behaviour);
         void setIs_dead(bool is_dead);
+        void setPos(int x, int y);
+        void setMoveEveryXTicks(int moveEveryXTicks);
+
 
         //getters
         long getAge() const;
@@ -46,6 +62,12 @@ class Mantis {
         char* getName() const;
         double getWeight() const;
         int getHappiness() const;
+        int getX() const;
+        int getY() const;
+        char *getDirection() const;
+        bool isFlipped() const;
+        bool isRotated() const;
+
 
 
         void hour_pass();
@@ -53,6 +75,10 @@ class Mantis {
         bool isDead() const;
 
         void feed(int prct_value);
+
+        void rollNewDirection();
+
+        void move(bool canMoveUp, bool canMoveDown, bool canMoveLeft, bool canMoveRight);
 
     void setWeight(double d);
 

@@ -6,6 +6,11 @@
 Mantis *mantis;
 Terrarium *terrarium;
 
+bool canMoveLeft = true;
+bool canMoveRight = true;
+bool canMoveUp = true;
+bool canMoveDown = true;
+
 Image test(IMAGE_DATA);
 Image mantis_idle(MANTIS_IDLE);
 
@@ -38,13 +43,53 @@ void loop() {
   //draw
   gb.display.clear();
   //statusScreen();
+  checkMoves();
+  moveMantis();
   animatedDemo();
 }
 
 void animatedDemo(){
-    //text here ;3
-    gb.display.print("Hello World!");
-    gb.display.drawImage(10, 10, mantis_idle);
+  int mantisPos[2] = {mantis->getX(),mantis->getY()};
+  if(mantis->isFlipped()){
+    gb.display.drawImage(mantisPos[0], mantisPos[1], mantis_idle, -24 ,24);
+    }else {
+      gb.display.drawImage(mantisPos[0], mantisPos[1], mantis_idle);
+  }
+
+}
+
+void moveMantis(){
+    mantis->move(canMoveUp,canMoveDown,canMoveLeft,canMoveRight);
+}
+
+void checkMoves(){
+  int mantisPos[2] = {mantis->getX(),mantis->getY()};
+  gb.display.print(mantisPos[0]);
+  gb.display.print("x");
+  gb.display.print(mantisPos[1]);
+  gb.display.print("\ndirection :");
+  gb.display.print(mantis->getDirection());
+
+  if (mantisPos[0] == 0){
+    canMoveLeft = false;
+    }else{
+    canMoveLeft = true;
+  }
+    if (mantisPos[0] == 56){
+        canMoveRight = false;
+        }else{
+        canMoveRight = true;
+    }
+    if (mantisPos[1] == 0){
+        canMoveUp = false;
+        }else{
+        canMoveUp = true;
+    }
+    if (mantisPos[1] == 40){
+        canMoveDown = false;
+        }else{
+        canMoveDown = true;
+    }
 }
 
 void statusScreen() {
