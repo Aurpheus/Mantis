@@ -1,12 +1,13 @@
 #include <Gamebuino-Meta.h>
 #include "Mantis.h"
 #include "Terrarium.h"
-#include "assets/bg_test.h"
-
-
+#include "assets/rgb565.h"
 
 Mantis *mantis;
 Terrarium *terrarium;
+
+Image test(IMAGE_DATA);
+Image mantis_idle(MANTIS_IDLE);
 
 long ticks_passed= 0;
 long days_passed = 0;
@@ -36,7 +37,14 @@ void loop() {
   
   //draw
   gb.display.clear();
-  statusScreen();
+  //statusScreen();
+  animatedDemo();
+}
+
+void animatedDemo(){
+    //text here ;3
+    gb.display.print("Hello World!");
+    gb.display.drawImage(10, 10, mantis_idle);
 }
 
 void statusScreen() {
